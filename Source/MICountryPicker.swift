@@ -151,14 +151,15 @@ extension MICountryPicker {
         
         let cell: UITableViewCell! = tempCell
         
+        let country: MICountry!
         if searchController.searchBar.isFirstResponder() {
-            let country = filteredList[indexPath.row]
-            cell.textLabel?.text = country.name
+            country = filteredList[indexPath.row]
         } else {
-            let country = sections[indexPath.section].countries[indexPath.row]
-            cell.textLabel?.text = country.name
+            country = sections[indexPath.section].countries[indexPath.row]
+            
         }
-        
+        cell.textLabel?.text = country.name
+        cell.imageView!.image = UIImage(named: country.code.lowercaseString)
         return cell
     }
     

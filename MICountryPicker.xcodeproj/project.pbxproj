@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05214EFF1C550EEE00F57DA5 /* Resources.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05214EFE1C550EEE00F57DA5 /* Resources.xcassets */; };
 		05B258401C54EA80002F01FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B2583F1C54EA80002F01FA /* AppDelegate.swift */; };
 		05B258421C54EA80002F01FA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B258411C54EA80002F01FA /* ViewController.swift */; };
 		05B258451C54EA80002F01FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B258431C54EA80002F01FA /* Main.storyboard */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05214EFE1C550EEE00F57DA5 /* Resources.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Resources.xcassets; path = Source/Resources.xcassets; sourceTree = "<group>"; };
 		05B2583C1C54EA80002F01FA /* MICountryPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MICountryPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		05B2583F1C54EA80002F01FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		05B258411C54EA80002F01FA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				05B258641C54EC67002F01FA /* MICountryPicker.swift */,
+				05214EFE1C550EEE00F57DA5 /* Resources.xcassets */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				05B2584A1C54EA80002F01FA /* LaunchScreen.storyboard in Resources */,
+				05214EFF1C550EEE00F57DA5 /* Resources.xcassets in Resources */,
 				05B258471C54EA80002F01FA /* Assets.xcassets in Resources */,
 				05B258451C54EA80002F01FA /* Main.storyboard in Resources */,
 			);
@@ -401,6 +405,7 @@
 				05B2585B1C54EA80002F01FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		05B2585C1C54EA80002F01FA /* Build configuration list for PBXNativeTarget "MICountryPickerTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +414,7 @@
 				05B2585E1C54EA80002F01FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
