@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var label: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -17,8 +19,26 @@ class ViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+    }
+    
+    @IBAction func openPickerAction(sender: AnyObject) {
+        
         let picker = MICountryPicker()
-        presentViewController(picker, animated: true, completion: nil)
+        
+        // delegate
+        picker.delegate = self
+        
+        // or closure
+        picker.didSelectCountryClosure = { name, code in
+            print(code)
+        }
+        navigationController?.pushViewController(picker, animated: true)
+    }
+}
+
+extension ViewController: MICountryPickerDelegate {
+    func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String) {
+        label.text = "Selected Country: \(name)"
     }
 }
 

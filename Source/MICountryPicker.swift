@@ -27,6 +27,10 @@ struct Section {
     }
 }
 
+protocol MICountryPickerDelegate: class {
+    func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
+}
+
 class MICountryPicker: UITableViewController {
     
     private var searchController: UISearchController!
@@ -81,6 +85,8 @@ class MICountryPicker: UITableViewController {
     }
     let collation = UILocalizedIndexedCollation.currentCollation()
         as UILocalizedIndexedCollation
+    weak var delegate: MICountryPickerDelegate?
+    var didSelectCountryClosure: ((String, String) -> ())?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,10 +100,6 @@ class MICountryPicker: UITableViewController {
     
     private func createSearchBar() {
         if self.tableView.tableHeaderView == nil {
-//            let theSearchBar = UISearchBar(frame: CGRectMake(0, 0, 320, 40))
-//            theSearchBar.showsCancelButton = true
-           
-            
             searchController = UISearchController(searchResultsController: nil)
             searchController.searchResultsUpdater = self
             searchController.dimsBackgroundDuringPresentation = false
@@ -187,7 +189,17 @@ extension MICountryPicker {
 extension MICountryPicker {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let country: MICountry!
+        if searchController.searchBar.isFirstResponder() {
+            country = filteredList[indexPath.row]
+        } else {
+            country = sections[indexPath.section].countries[indexPath.row]
+            
+        }
+        delegate?.countryPicker(self, didSelectCountryWithName: country.name, code: country.code)
+        didSelectCountryClosure?(country.name, country.code)
+        navigationController?.popToRootViewControllerAnimated(true)
     }
 }
 

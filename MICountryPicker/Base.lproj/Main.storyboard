@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1509" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="VJ8-ZF-qN6">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--MICountryPicker-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MICountryPicker" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,11 +16,55 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QCt-pK-p4O">
+                                <rect key="frame" x="258" y="285" width="84" height="30"/>
+                                <state key="normal" title="Open Picker"/>
+                                <connections>
+                                    <action selector="openPickerAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J5s-Lc-nX1"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selecetd Country:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rX3-aT-bcp">
+                                <rect key="frame" x="231.5" y="257" width="137.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="QCt-pK-p4O" firstAttribute="top" secondItem="rX3-aT-bcp" secondAttribute="bottom" constant="8" id="OyJ-km-Sg4"/>
+                            <constraint firstItem="rX3-aT-bcp" firstAttribute="centerX" secondItem="QCt-pK-p4O" secondAttribute="centerX" id="de2-zR-XWZ"/>
+                            <constraint firstItem="QCt-pK-p4O" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="l3D-5N-xGd"/>
+                            <constraint firstItem="QCt-pK-p4O" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="s6Q-Z7-8bq"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="MICountryPicker" id="Y5f-ph-kgh"/>
+                    <connections>
+                        <outlet property="label" destination="rX3-aT-bcp" id="c5G-kr-RNH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1057" y="335"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="lrh-xI-bmQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="VJ8-ZF-qN6" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="evt-cr-9rS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="czq-yj-WfU"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nbg-wm-Bh1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="245" y="335"/>
         </scene>
     </scenes>
 </document>
