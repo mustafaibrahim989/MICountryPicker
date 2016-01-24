@@ -88,7 +88,7 @@ public class MICountryPicker: UITableViewController {
     weak var delegate: MICountryPickerDelegate?
     var didSelectCountryClosure: ((String, String) -> ())?
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
@@ -129,21 +129,21 @@ public class MICountryPicker: UITableViewController {
 
 extension MICountryPicker {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if searchController.searchBar.isFirstResponder() {
             return 1
         }
         return sections.count
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.searchBar.isFirstResponder() {
             return filteredList.count
         }
         return sections[section].countries.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var tempCell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("UITableViewCell")
         
@@ -166,18 +166,18 @@ extension MICountryPicker {
         return cell
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if !sections[section].countries.isEmpty {
             return self.collation.sectionTitles[section] as String
         }
         return ""
     }
     
-    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    override public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         return collation.sectionIndexTitles
     }
     
-    override func tableView(tableView: UITableView,
+    override public func tableView(tableView: UITableView,
         sectionForSectionIndexTitle title: String,
         atIndex index: Int)
         -> Int {
@@ -189,7 +189,7 @@ extension MICountryPicker {
 
 extension MICountryPicker {
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let country: MICountry!
         if searchController.searchBar.isFirstResponder() {
@@ -208,7 +208,7 @@ extension MICountryPicker {
 
 extension MICountryPicker: UISearchResultsUpdating {
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    public func updateSearchResultsForSearchController(searchController: UISearchController) {
         filter(searchController.searchBar.text!)
         tableView.reloadData()
     }
