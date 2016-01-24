@@ -31,7 +31,7 @@ protocol MICountryPickerDelegate: class {
     func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
 }
 
-class MICountryPicker: UITableViewController {
+public class MICountryPicker: UITableViewController {
     
     private var searchController: UISearchController!
     private var filteredList = [MICountry]()
