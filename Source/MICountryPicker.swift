@@ -29,7 +29,7 @@ struct Section {
 
 class MICountryPicker: UITableViewController {
     
-    private var searchController: UISearchDisplayController!
+    private var searchController: UISearchController!
     private var filteredList = [MICountry]()
     private var unsourtedCountries : [MICountry] {
         let locale = NSLocale.currentLocale()
@@ -94,15 +94,14 @@ class MICountryPicker: UITableViewController {
     
     private func createSearchBar() {
         if self.tableView.tableHeaderView == nil {
-            let theSearchBar = UISearchBar(frame: CGRectMake(0, 0, 320, 40))
-            theSearchBar.showsCancelButton = true
-            tableView.tableHeaderView = theSearchBar
+//            let theSearchBar = UISearchBar(frame: CGRectMake(0, 0, 320, 40))
+//            theSearchBar.showsCancelButton = true
+           
             
-            searchController = UISearchDisplayController(searchBar: theSearchBar, contentsController: self)
-            searchController.delegate = self
-            searchController.searchResultsDataSource = self
-            searchController.searchResultsDelegate = self
-            theSearchBar.becomeFirstResponder()
+            searchController = UISearchController(searchResultsController: nil)
+            searchController.searchResultsUpdater = self
+            searchController.dimsBackgroundDuringPresentation = false
+            tableView.tableHeaderView = searchController.searchBar
         }
     }
     
@@ -129,24 +128,15 @@ class MICountryPicker: UITableViewController {
 extension MICountryPicker {
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if let searchTableView = searchDisplayController {
-            if tableView == searchTableView.searchResultsTableView {
-                return 1
-            } else {
-                sections.count
-            }
+        if searchController.searchBar.isFirstResponder() {
+            return 1
         }
-        
         return sections.count
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let searchTableView = searchDisplayController {
-            if tableView == searchTableView.searchResultsTableView {
-                return filteredList.count
-            } else {
-                sections[section].countries.count
-            }
+        if searchController.searchBar.isFirstResponder() {
+            return filteredList.count
         }
         return sections[section].countries.count
     }
@@ -161,14 +151,9 @@ extension MICountryPicker {
         
         let cell: UITableViewCell! = tempCell
         
-        if let searchTableView = searchDisplayController {
-            if tableView == searchTableView.searchResultsTableView {
-                let country = filteredList[indexPath.row]
-                cell.textLabel?.text = country.name
-            } else {
-                let country = sections[indexPath.section].countries[indexPath.row]
-                cell.textLabel?.text = country.name
-            }
+        if searchController.searchBar.isFirstResponder() {
+            let country = filteredList[indexPath.row]
+            cell.textLabel?.text = country.name
         } else {
             let country = sections[indexPath.section].countries[indexPath.row]
             cell.textLabel?.text = country.name
@@ -207,16 +192,10 @@ extension MICountryPicker {
 
 // MARK: - UISearchDisplayDelegate
 
-extension MICountryPicker: UISearchDisplayDelegate {
+extension MICountryPicker: UISearchResultsUpdating {
     
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchScope searchOption: Int) -> Bool {
-        
-        filter(searchDisplayController!.searchBar.text!)
-        return true
-    }
-    
-    func searchDisplayController(controller: UISearchDisplayController, shouldReloadTableForSearchString searchString: String?) -> Bool {
-        filter(searchString!)
-        return true
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        filter(searchController.searchBar.text!)
+        tableView.reloadData()
     }
 }
