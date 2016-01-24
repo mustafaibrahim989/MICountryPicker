@@ -22,7 +22,7 @@ let picker = MICountryPicker()
 navigationController?.pushViewController(picker, animated: true)
 
 ```
-Callbacks
+MICountryPickerDelegate protocol
 
 ```swift
 
@@ -30,7 +30,6 @@ Callbacks
 picker.delegate = self
 
 ```
-From MICountryPickerDelegate protocol
 
 ```swift
 
@@ -39,6 +38,8 @@ func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: Strin
 }
 
 ```
+
+Closure
 
 ```swift
 
