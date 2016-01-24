@@ -12,4 +12,5 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/nghialv/Transporter.git", :tag => s.version.to_s }
   s.source_files  = "Source/*"
   s.requires_arc = true
+  s.resources ='Source/assets.bundle'
 end

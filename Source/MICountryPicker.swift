@@ -161,7 +161,8 @@ extension MICountryPicker {
             
         }
         cell.textLabel?.text = country.name
-        cell.imageView!.image = UIImage(named: country.code.lowercaseString)
+        let bundle = "assets.bundle/"
+        cell.imageView!.image = UIImage(named: bundle + country.code.lowercaseString)
         return cell
     }
     
