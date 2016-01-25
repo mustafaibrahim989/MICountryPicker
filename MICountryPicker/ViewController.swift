@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBAction func openPickerAction(sender: AnyObject) {
         
         let picker = MICountryPicker()
+        picker.customCountriesCode = ["EG", "US", "AF", "AQ", "AX"]
         
         // delegate
         picker.delegate = self

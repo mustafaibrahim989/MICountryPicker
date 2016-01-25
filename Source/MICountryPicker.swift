@@ -33,12 +33,14 @@ protocol MICountryPickerDelegate: class {
 
 public class MICountryPicker: UITableViewController {
     
+    public var customCountriesCode: [String]?
+    
     private var searchController: UISearchController!
     private var filteredList = [MICountry]()
     private var unsourtedCountries : [MICountry] {
         let locale = NSLocale.currentLocale()
         var unsourtedCountries = [MICountry]()
-        let countriesCodes = NSLocale.ISOCountryCodes()
+        let countriesCodes = customCountriesCode == nil ? NSLocale.ISOCountryCodes() : customCountriesCode!
         
         for countryCode in countriesCodes {
             let displayName = locale.displayNameForKey(NSLocaleCountryCode, value: countryCode)
