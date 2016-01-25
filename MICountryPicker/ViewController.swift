@@ -23,16 +23,20 @@ class ViewController: UIViewController {
     
     @IBAction func openPickerAction(sender: AnyObject) {
         
-        let picker = MICountryPicker()
+        let picker = MICountryPicker { (name, code) -> () in
+            print(code)
+        }
+        
+        // Optional: To pick from custom countries list
         picker.customCountriesCode = ["EG", "US", "AF", "AQ", "AX"]
         
         // delegate
         picker.delegate = self
         
         // or closure
-        picker.didSelectCountryClosure = { name, code in
-            print(code)
-        }
+//        picker.didSelectCountryClosure = { name, code in
+//            print(code)
+//        }
         navigationController?.pushViewController(picker, animated: true)
     }
 }

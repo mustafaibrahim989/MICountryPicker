@@ -90,6 +90,11 @@ public class MICountryPicker: UITableViewController {
     weak var delegate: MICountryPickerDelegate?
     var didSelectCountryClosure: ((String, String) -> ())?
     
+    convenience public init(completionHandler: ((String, String) -> ())) {
+        self.init()
+        self.didSelectCountryClosure = completionHandler
+    }
+    
     override public func viewDidLoad() {
         super.viewDidLoad()
         
