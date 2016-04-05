@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MICountryPicker"
-  s.version      = "0.1"
+  s.version      = "0.1.3"
   s.summary      = "MICountryPicker is a country picker controller for iOS8+ with an option to search"
   s.homepage     = "https://github.com/mustafaibrahim989/MICountryPicker"
   s.license      = { :type => "MIT", :file => "LICENSE" }
@@ -9,8 +9,8 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios
   s.ios.deployment_target = "8.0"
-  s.source       = { :git => "https://github.com/nghialv/Transporter.git", :tag => s.version.to_s }
-  s.source_files  = "Source/*"
+  s.source       = { :git => "https://github.com/mustafaibrahim989/MICountryPicker.git", :tag => s.version }
+  s.source_files  = 'Source/*.swift'
+  s.resources = 'Source/assets.bundle'
   s.requires_arc = true
-  s.resources ='Source/assets.bundle'
 end

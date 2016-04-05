@@ -31,14 +31,16 @@ protocol MICountryPickerDelegate: class {
     func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
 }
 
-class MICountryPicker: UITableViewController {
+public class MICountryPicker: UITableViewController {
+    
+    public var customCountriesCode: [String]?
     
     private var searchController: UISearchController!
     private var filteredList = [MICountry]()
     private var unsourtedCountries : [MICountry] {
         let locale = NSLocale.currentLocale()
         var unsourtedCountries = [MICountry]()
-        let countriesCodes = NSLocale.ISOCountryCodes()
+        let countriesCodes = customCountriesCode == nil ? NSLocale.ISOCountryCodes() : customCountriesCode!
         
         for countryCode in countriesCodes {
             let displayName = locale.displayNameForKey(NSLocaleCountryCode, value: countryCode)
@@ -58,7 +60,7 @@ class MICountryPicker: UITableViewController {
         
         let countries: [MICountry] = unsourtedCountries.map { country in
             let country = MICountry(name: country.name, code: country.code)
-            country.section = collation.sectionForObject(country, collationStringSelector: "name")
+            country.section = collation.sectionForObject(country, collationStringSelector: Selector("name"))
             return country
         }
         
@@ -76,7 +78,7 @@ class MICountryPicker: UITableViewController {
         // sort each section
         for section in sections {
             var s = section
-            s.countries = collation.sortedArrayFromArray(section.countries, collationStringSelector: "name") as! [MICountry]
+            s.countries = collation.sortedArrayFromArray(section.countries, collationStringSelector: Selector("name")) as! [MICountry]
         }
         
         _sections = sections
@@ -88,7 +90,12 @@ class MICountryPicker: UITableViewController {
     weak var delegate: MICountryPickerDelegate?
     var didSelectCountryClosure: ((String, String) -> ())?
     
-    override func viewDidLoad() {
+    convenience public init(completionHandler: ((String, String) -> ())) {
+        self.init()
+        self.didSelectCountryClosure = completionHandler
+    }
+    
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
@@ -112,8 +119,7 @@ class MICountryPicker: UITableViewController {
         
         sections.forEach { (section) -> () in
             section.countries.forEach({ (country) -> () in
-                let result = country.name.compare(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: Range(start: searchText.startIndex,
-                    end: searchText.endIndex))
+                let result = country.name.compare(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: searchText.startIndex ..< searchText.endIndex)
                 if result == .OrderedSame {
                     filteredList.append(country)
                 }
@@ -129,21 +135,21 @@ class MICountryPicker: UITableViewController {
 
 extension MICountryPicker {
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if searchController.searchBar.isFirstResponder() {
             return 1
         }
         return sections.count
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.searchBar.isFirstResponder() {
             return filteredList.count
         }
         return sections[section].countries.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var tempCell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("UITableViewCell")
         
@@ -162,22 +168,22 @@ extension MICountryPicker {
         }
         cell.textLabel?.text = country.name
         let bundle = "assets.bundle/"
-        cell.imageView!.image = UIImage(named: bundle + country.code.lowercaseString)
+        cell.imageView!.image = UIImage(named: bundle + country.code.lowercaseString + ".png", inBundle: NSBundle(forClass: MICountryPicker.self), compatibleWithTraitCollection: nil)
         return cell
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if !sections[section].countries.isEmpty {
             return self.collation.sectionTitles[section] as String
         }
         return ""
     }
     
-    override func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    override public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         return collation.sectionIndexTitles
     }
     
-    override func tableView(tableView: UITableView,
+    override public func tableView(tableView: UITableView,
         sectionForSectionIndexTitle title: String,
         atIndex index: Int)
         -> Int {
@@ -189,7 +195,7 @@ extension MICountryPicker {
 
 extension MICountryPicker {
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let country: MICountry!
         if searchController.searchBar.isFirstResponder() {
@@ -208,7 +214,7 @@ extension MICountryPicker {
 
 extension MICountryPicker: UISearchResultsUpdating {
     
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
+    public func updateSearchResultsForSearchController(searchController: UISearchController) {
         filter(searchController.searchBar.text!)
         tableView.reloadData()
     }
