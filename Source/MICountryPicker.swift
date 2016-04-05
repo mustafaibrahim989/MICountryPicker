@@ -60,7 +60,7 @@ public class MICountryPicker: UITableViewController {
         
         let countries: [MICountry] = unsourtedCountries.map { country in
             let country = MICountry(name: country.name, code: country.code)
-            country.section = collation.sectionForObject(country, collationStringSelector: "name")
+            country.section = collation.sectionForObject(country, collationStringSelector: Selector("name"))
             return country
         }
         
@@ -78,7 +78,7 @@ public class MICountryPicker: UITableViewController {
         // sort each section
         for section in sections {
             var s = section
-            s.countries = collation.sortedArrayFromArray(section.countries, collationStringSelector: "name") as! [MICountry]
+            s.countries = collation.sortedArrayFromArray(section.countries, collationStringSelector: Selector("name")) as! [MICountry]
         }
         
         _sections = sections
@@ -119,8 +119,7 @@ public class MICountryPicker: UITableViewController {
         
         sections.forEach { (section) -> () in
             section.countries.forEach({ (country) -> () in
-                let result = country.name.compare(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: Range(start: searchText.startIndex,
-                    end: searchText.endIndex))
+                let result = country.name.compare(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: searchText.startIndex ..< searchText.endIndex)
                 if result == .OrderedSame {
                     filteredList.append(country)
                 }
