@@ -27,7 +27,7 @@ struct Section {
     }
 }
 
-protocol MICountryPickerDelegate: class {
+public protocol MICountryPickerDelegate: class {
     func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
 }
 
