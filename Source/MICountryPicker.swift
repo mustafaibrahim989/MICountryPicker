@@ -85,10 +85,10 @@ public class MICountryPicker: UITableViewController {
         
         return _sections!
     }
-    let collation = UILocalizedIndexedCollation.currentCollation()
+    private let collation = UILocalizedIndexedCollation.currentCollation()
         as UILocalizedIndexedCollation
-    weak var delegate: MICountryPickerDelegate?
-    var didSelectCountryClosure: ((String, String) -> ())?
+    public weak var delegate: MICountryPickerDelegate?
+    public var didSelectCountryClosure: ((String, String) -> ())?
     
     convenience public init(completionHandler: ((String, String) -> ())) {
         self.init()
