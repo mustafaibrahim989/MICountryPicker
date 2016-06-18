@@ -34,15 +34,17 @@ class ViewController: UIViewController {
         picker.delegate = self
         
         // or closure
-//        picker.didSelectCountryClosure = { name, code in
-//            print(code)
-//        }
+        picker.didSelectCountryClosure = { name, code in
+            picker.navigationController?.popToRootViewControllerAnimated(true)
+            print(code)
+        }
         navigationController?.pushViewController(picker, animated: true)
     }
 }
 
 extension ViewController: MICountryPickerDelegate {
     func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String) {
+        picker.navigationController?.popToRootViewControllerAnimated(true)
         label.text = "Selected Country: \(name)"
     }
 }

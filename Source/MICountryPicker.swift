@@ -206,7 +206,6 @@ extension MICountryPicker {
         }
         delegate?.countryPicker(self, didSelectCountryWithName: country.name, code: country.code)
         didSelectCountryClosure?(country.name, country.code)
-        navigationController?.popToRootViewControllerAnimated(true)
     }
 }
 
