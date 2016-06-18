@@ -118,12 +118,13 @@ public class MICountryPicker: UITableViewController {
         filteredList.removeAll()
         
         sections.forEach { (section) -> () in
+        if country.name.characters.count >= searchText.characters.count {
             section.countries.forEach({ (country) -> () in
                 let result = country.name.compare(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: searchText.startIndex ..< searchText.endIndex)
                 if result == .OrderedSame {
                     filteredList.append(country)
                 }
-                
+                }
             })
         }
         
