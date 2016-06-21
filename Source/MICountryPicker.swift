@@ -1242,8 +1242,9 @@ struct Section {
     }
 }
 
-public protocol MICountryPickerDelegate: class {
+@objc public protocol MICountryPickerDelegate: class {
     func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
+    optional func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String)
 }
 
 public class MICountryPicker: UITableViewController {
@@ -1313,7 +1314,8 @@ public class MICountryPicker: UITableViewController {
         as UILocalizedIndexedCollation
     public weak var delegate: MICountryPickerDelegate?
     public var didSelectCountryClosure: ((String, String) -> ())?
-    
+    public var didSelectCountryWithCallingCodeClosure: ((String, String, String) -> ())?
+
     convenience public init(completionHandler: ((String, String) -> ())) {
         self.init()
         self.didSelectCountryClosure = completionHandler
@@ -1431,7 +1433,9 @@ extension MICountryPicker {
             
         }
         delegate?.countryPicker(self, didSelectCountryWithName: country.name, code: country.code)
+        delegate?.countryPicker?(self, didSelectCountryWithName: country.name, code: country.code, dialCode: country.dialCode)
         didSelectCountryClosure?(country.name, country.code)
+        didSelectCountryWithCallingCodeClosure?(country.name, country.code, country.dialCode)
     }
 }
 
