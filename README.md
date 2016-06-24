@@ -4,13 +4,13 @@ MICountryPicker is a country picker controller for iOS8+ with an option to searc
 
 ## Screenshots
 
-![alt tag](https://github.com/mustafaibrahim989/MICountryPicker/blob/master/screen1.png) ![alt tag](https://github.com/mustafaibrahim989/MICountryPicker/blob/master/screen2.png)
+![alt tag](https://github.com/mustafaibrahim989/MICountryPicker/blob/master/screen1.png) ![alt tag](https://github.com/mustafaibrahim989/MICountryPicker/blob/master/screen2.png) ![alt tag](https://github.com/mustafaibrahim989/MICountryPicker/blob/master/screen3.png)
 
 ## Installation
 
 MICountryPicker is available through [CocoaPods](http://cocoapods.org), to install
 it simply add the following line to your Podfile:
-  
+
     use_frameworks!
     pod 'MICountryPicker'
 
@@ -29,6 +29,9 @@ navigationController?.pushViewController(picker, animated: true)
 // delegate
 picker.delegate = self
 
+// Optionally, set this to display the country calling codes after the names
+picker.showCallingCodes = true
+
 ```
 
 ```swift
@@ -37,6 +40,9 @@ func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: Strin
         print(code)
 }
 
+func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
+        print(dialCode)
+}
 ```
 
 ## Closure
@@ -46,6 +52,10 @@ func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: Strin
 // or closure
 picker.didSelectCountryClosure = { name, code in
         print(code)
+}
+
+picker.didSelectCountryWithCallingCodeClosure = { name, code, dialCode in
+        print(dialCode)
 }
 
 ```

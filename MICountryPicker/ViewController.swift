@@ -32,7 +32,10 @@ class ViewController: UIViewController {
         
         // delegate
         picker.delegate = self
-        
+
+        // Display calling codes
+//        picker.showCallingCodes = true
+
         // or closure
         picker.didSelectCountryClosure = { name, code in
             picker.navigationController?.popToRootViewControllerAnimated(true)

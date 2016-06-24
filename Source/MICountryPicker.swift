@@ -1263,13 +1263,11 @@ public class MICountryPicker: UITableViewController {
             let countryData = CallingCodes.filter { $0["code"] == countryCode }
             let country: MICountry
 
-            print(countryData)
             if countryData.count > 0, let dialCode = countryData[0]["dial_code"] {
                 country = MICountry(name: displayName!, code: countryCode, dialCode: dialCode)
             } else {
                 country = MICountry(name: displayName!, code: countryCode)
             }
-            print(country)
             unsourtedCountries.append(country)
         }
         
@@ -1315,6 +1313,7 @@ public class MICountryPicker: UITableViewController {
     public weak var delegate: MICountryPickerDelegate?
     public var didSelectCountryClosure: ((String, String) -> ())?
     public var didSelectCountryWithCallingCodeClosure: ((String, String, String) -> ())?
+    public var showCallingCodes = false
 
     convenience public init(completionHandler: ((String, String) -> ())) {
         self.init()
@@ -1394,7 +1393,12 @@ extension MICountryPicker {
             
         }
 
-        cell.textLabel?.text = country.name + " (" + country.dialCode! + ")"
+        if showCallingCodes {
+            cell.textLabel?.text = country.name + " (" + country.dialCode! + ")"
+        } else {
+            cell.textLabel?.text = country.name
+        }
+
         let bundle = "assets.bundle/"
         cell.imageView!.image = UIImage(named: bundle + country.code.lowercaseString + ".png", inBundle: NSBundle(forClass: MICountryPicker.self), compatibleWithTraitCollection: nil)
         return cell
