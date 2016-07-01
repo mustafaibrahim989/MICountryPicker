@@ -8,11 +8,6 @@
 
 import UIKit
 
-let CallingCodes = { () -> [[String: String]] in
-    guard let path = NSBundle.mainBundle().pathForResource("CallingCodes", ofType: "plist") else { return [] }
-    return NSArray(contentsOfFile: path) as! [[String: String]]
-}()
-
 class MICountry: NSObject {
     let name: String
     let code: String
