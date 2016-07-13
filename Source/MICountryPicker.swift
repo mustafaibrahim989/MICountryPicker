@@ -113,6 +113,8 @@ public class MICountryPicker: UITableViewController {
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         createSearchBar()
         tableView.reloadData()
+        
+        definesPresentationContext = true
     }
     
     // MARK: Methods
