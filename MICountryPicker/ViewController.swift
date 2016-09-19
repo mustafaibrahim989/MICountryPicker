@@ -16,11 +16,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
     @IBAction func openPickerAction(sender: AnyObject) {
         
         let picker = MICountryPicker { (name, code) -> () in
