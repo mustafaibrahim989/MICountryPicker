@@ -15,7 +15,6 @@
 		05B2584A1C54EA80002F01FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B258481C54EA80002F01FA /* LaunchScreen.storyboard */; };
 		05B258551C54EA80002F01FA /* MICountryPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B258541C54EA80002F01FA /* MICountryPickerTests.swift */; };
 		05B258651C54EC67002F01FA /* MICountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B258641C54EC67002F01FA /* MICountryPicker.swift */; };
-		3DB19A431D2573EF007037CC /* CountryCallingCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB19A421D2573EF007037CC /* CountryCallingCodes.swift */; };
 		EB8B43821D2601AA007D505E /* CallingCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB8B43811D2601AA007D505E /* CallingCodes.plist */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 		05B258541C54EA80002F01FA /* MICountryPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MICountryPickerTests.swift; sourceTree = "<group>"; };
 		05B258561C54EA80002F01FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05B258641C54EC67002F01FA /* MICountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MICountryPicker.swift; path = Source/MICountryPicker.swift; sourceTree = "<group>"; };
-		3DB19A421D2573EF007037CC /* CountryCallingCodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CountryCallingCodes.swift; path = Source/CountryCallingCodes.swift; sourceTree = "<group>"; };
 		EB8B43811D2601AA007D505E /* CallingCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CallingCodes.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -111,7 +109,6 @@
 			children = (
 				EB8B43811D2601AA007D505E /* CallingCodes.plist */,
 				05B258641C54EC67002F01FA /* MICountryPicker.swift */,
-				3DB19A421D2573EF007037CC /* CountryCallingCodes.swift */,
 				05214F001C55226B00F57DA5 /* assets.bundle */,
 			);
 			name = Source;
@@ -220,7 +217,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3DB19A431D2573EF007037CC /* CountryCallingCodes.swift in Sources */,
 				05B258421C54EA80002F01FA /* ViewController.swift in Sources */,
 				05B258401C54EA80002F01FA /* AppDelegate.swift in Sources */,
 				05B258651C54EC67002F01FA /* MICountryPicker.swift in Sources */,

@@ -38,6 +38,10 @@ public class MICountryPicker: UITableViewController {
     
     public var customCountriesCode: [String]?
     
+    private lazy var CallingCodes = { () -> [[String: String]] in
+        guard let path = NSBundle.mainBundle().pathForResource("CallingCodes", ofType: "plist") else { return [] }
+        return NSArray(contentsOfFile: path) as! [[String: String]]
+    }()
     private var searchController: UISearchController!
     private var filteredList = [MICountry]()
     private var unsourtedCountries : [MICountry] {
