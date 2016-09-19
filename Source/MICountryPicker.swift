@@ -24,33 +24,33 @@ class MICountry: NSObject {
 struct Section {
     var countries: [MICountry] = []
     
-    mutating func addCountry(country: MICountry) {
+    mutating func addCountry(_ country: MICountry) {
         countries.append(country)
     }
 }
 
 @objc public protocol MICountryPickerDelegate: class {
-    func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
-    optional func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String)
+    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String)
+    @objc optional func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String)
 }
 
-public class MICountryPicker: UITableViewController {
+open class MICountryPicker: UITableViewController {
     
-    public var customCountriesCode: [String]?
+    open var customCountriesCode: [String]?
     
-    private lazy var CallingCodes = { () -> [[String: String]] in
-        guard let path = NSBundle.mainBundle().pathForResource("CallingCodes", ofType: "plist") else { return [] }
+    fileprivate lazy var CallingCodes = { () -> [[String: String]] in
+        guard let path = Bundle.main.path(forResource: "CallingCodes", ofType: "plist") else { return [] }
         return NSArray(contentsOfFile: path) as! [[String: String]]
     }()
-    private var searchController: UISearchController!
-    private var filteredList = [MICountry]()
-    private var unsourtedCountries : [MICountry] {
-        let locale = NSLocale.currentLocale()
+    fileprivate var searchController: UISearchController!
+    fileprivate var filteredList = [MICountry]()
+    fileprivate var unsourtedCountries : [MICountry] {
+        let locale = Locale.current
         var unsourtedCountries = [MICountry]()
-        let countriesCodes = customCountriesCode == nil ? NSLocale.ISOCountryCodes() : customCountriesCode!
+        let countriesCodes = customCountriesCode == nil ? Locale.isoRegionCodes : customCountriesCode!
         
         for countryCode in countriesCodes {
-            let displayName = locale.displayNameForKey(NSLocaleCountryCode, value: countryCode)
+            let displayName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: countryCode)
             let countryData = CallingCodes.filter { $0["code"] == countryCode }
             let country: MICountry
 
@@ -65,8 +65,8 @@ public class MICountryPicker: UITableViewController {
         return unsourtedCountries
     }
     
-    private var _sections: [Section]?
-    private var sections: [Section] {
+    fileprivate var _sections: [Section]?
+    fileprivate var sections: [Section] {
         
         if _sections != nil {
             return _sections!
@@ -74,7 +74,7 @@ public class MICountryPicker: UITableViewController {
         
         let countries: [MICountry] = unsourtedCountries.map { country in
             let country = MICountry(name: country.name, code: country.code, dialCode: country.dialCode)
-            country.section = collation.sectionForObject(country, collationStringSelector: Selector("name"))
+            country.section = collation.section(for: country, collationStringSelector: #selector(getter: MICountry.name))
             return country
         }
         
@@ -92,29 +92,29 @@ public class MICountryPicker: UITableViewController {
         // sort each section
         for section in sections {
             var s = section
-            s.countries = collation.sortedArrayFromArray(section.countries, collationStringSelector: Selector("name")) as! [MICountry]
+            s.countries = collation.sortedArray(from: section.countries, collationStringSelector: #selector(getter: MICountry.name)) as! [MICountry]
         }
         
         _sections = sections
         
         return _sections!
     }
-    private let collation = UILocalizedIndexedCollation.currentCollation()
+    fileprivate let collation = UILocalizedIndexedCollation.current()
         as UILocalizedIndexedCollation
-    public weak var delegate: MICountryPickerDelegate?
-    public var didSelectCountryClosure: ((String, String) -> ())?
-    public var didSelectCountryWithCallingCodeClosure: ((String, String, String) -> ())?
-    public var showCallingCodes = false
+    open weak var delegate: MICountryPickerDelegate?
+    open var didSelectCountryClosure: ((String, String) -> ())?
+    open var didSelectCountryWithCallingCodeClosure: ((String, String, String) -> ())?
+    open var showCallingCodes = false
 
-    convenience public init(completionHandler: ((String, String) -> ())) {
+    convenience public init(completionHandler: @escaping ((String, String) -> ())) {
         self.init()
         self.didSelectCountryClosure = completionHandler
     }
     
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         createSearchBar()
         tableView.reloadData()
         
@@ -123,7 +123,7 @@ public class MICountryPicker: UITableViewController {
     
     // MARK: Methods
     
-    private func createSearchBar() {
+    fileprivate func createSearchBar() {
         if self.tableView.tableHeaderView == nil {
             searchController = UISearchController(searchResultsController: nil)
             searchController.searchResultsUpdater = self
@@ -132,14 +132,14 @@ public class MICountryPicker: UITableViewController {
         }
     }
     
-    private func filter(searchText: String) -> [MICountry] {
+    fileprivate func filter(_ searchText: String) -> [MICountry] {
         filteredList.removeAll()
         
         sections.forEach { (section) -> () in
             section.countries.forEach({ (country) -> () in
                 if country.name.characters.count >= searchText.characters.count {
-                    let result = country.name.compare(searchText, options: [.CaseInsensitiveSearch, .DiacriticInsensitiveSearch], range: searchText.startIndex ..< searchText.endIndex)
-                    if result == .OrderedSame {
+                    let result = country.name.compare(searchText, options: [.caseInsensitive, .diacriticInsensitive], range: searchText.characters.startIndex ..< searchText.characters.endIndex)
+                    if result == .orderedSame {
                         filteredList.append(country)
                     }
                 }
@@ -154,35 +154,35 @@ public class MICountryPicker: UITableViewController {
 
 extension MICountryPicker {
     
-    override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if searchController.searchBar.isFirstResponder() {
+    override open func numberOfSections(in tableView: UITableView) -> Int {
+        if searchController.searchBar.isFirstResponder {
             return 1
         }
         return sections.count
     }
     
-    override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.searchBar.isFirstResponder() {
+    override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.searchBar.isFirstResponder {
             return filteredList.count
         }
         return sections[section].countries.count
     }
     
-    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        var tempCell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("UITableViewCell")
+        var tempCell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell")
         
         if tempCell == nil {
-            tempCell = UITableViewCell(style: .Default, reuseIdentifier: "UITableViewCell")
+            tempCell = UITableViewCell(style: .default, reuseIdentifier: "UITableViewCell")
         }
         
         let cell: UITableViewCell! = tempCell
         
         let country: MICountry!
-        if searchController.searchBar.isFirstResponder() {
-            country = filteredList[indexPath.row]
+        if searchController.searchBar.isFirstResponder {
+            country = filteredList[(indexPath as NSIndexPath).row]
         } else {
-            country = sections[indexPath.section].countries[indexPath.row]
+            country = sections[(indexPath as NSIndexPath).section].countries[(indexPath as NSIndexPath).row]
             
         }
 
@@ -193,26 +193,26 @@ extension MICountryPicker {
         }
 
         let bundle = "assets.bundle/"
-        cell.imageView!.image = UIImage(named: bundle + country.code.lowercaseString + ".png", inBundle: NSBundle(forClass: MICountryPicker.self), compatibleWithTraitCollection: nil)
+        cell.imageView!.image = UIImage(named: bundle + country.code.lowercased() + ".png", in: Bundle(for: MICountryPicker.self), compatibleWith: nil)
         return cell
     }
     
-    override public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if !sections[section].countries.isEmpty {
             return self.collation.sectionTitles[section] as String
         }
         return ""
     }
     
-    override public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+    override open func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         return collation.sectionIndexTitles
     }
     
-    override public func tableView(tableView: UITableView,
+    override open func tableView(_ tableView: UITableView,
         sectionForSectionIndexTitle title: String,
-        atIndex index: Int)
+        at index: Int)
         -> Int {
-            return collation.sectionForSectionIndexTitleAtIndex(index)
+            return collation.section(forSectionIndexTitle: index)
     }
 }
 
@@ -220,13 +220,13 @@ extension MICountryPicker {
 
 extension MICountryPicker {
     
-    override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let country: MICountry!
-        if searchController.searchBar.isFirstResponder() {
-            country = filteredList[indexPath.row]
+        if searchController.searchBar.isFirstResponder {
+            country = filteredList[(indexPath as NSIndexPath).row]
         } else {
-            country = sections[indexPath.section].countries[indexPath.row]
+            country = sections[(indexPath as NSIndexPath).section].countries[(indexPath as NSIndexPath).row]
             
         }
         delegate?.countryPicker(self, didSelectCountryWithName: country.name, code: country.code)
@@ -240,7 +240,7 @@ extension MICountryPicker {
 
 extension MICountryPicker: UISearchResultsUpdating {
     
-    public func updateSearchResultsForSearchController(searchController: UISearchController) {
+    public func updateSearchResults(for searchController: UISearchController) {
         filter(searchController.searchBar.text!)
         tableView.reloadData()
     }

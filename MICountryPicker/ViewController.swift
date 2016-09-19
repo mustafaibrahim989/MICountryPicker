@@ -16,7 +16,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    @IBAction func openPickerAction(sender: AnyObject) {
+    @IBAction func openPickerAction(_ sender: AnyObject) {
         
         let picker = MICountryPicker { (name, code) -> () in
             print(code)
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
 
         // or closure
         picker.didSelectCountryClosure = { name, code in
-            picker.navigationController?.popToRootViewControllerAnimated(true)
+            picker.navigationController?.popToRootViewController(animated: true)
             print(code)
         }
         navigationController?.pushViewController(picker, animated: true)
@@ -41,8 +41,8 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: MICountryPickerDelegate {
-    func countryPicker(picker: MICountryPicker, didSelectCountryWithName name: String, code: String) {
-        picker.navigationController?.popToRootViewControllerAnimated(true)
+    func countryPicker(_ picker: MICountryPicker, didSelectCountryWithName name: String, code: String) {
+        picker.navigationController?.popToRootViewController(animated: true)
         label.text = "Selected Country: \(name)"
     }
 }
