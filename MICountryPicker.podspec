@@ -11,6 +11,6 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.0"
   s.source       = { :git => "https://github.com/mustafaibrahim989/MICountryPicker.git", :tag => s.version }
   s.source_files  = 'Source/*.swift'
-  s.resources = 'Source/assets.bundle’, 'Source/CallingCodes.plist'
+  s.resources = ['Source/assets.bundle', 'Source/CallingCodes.plist']
   s.requires_arc = true
 end
