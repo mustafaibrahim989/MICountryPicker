@@ -15,7 +15,7 @@
 		05B2584A1C54EA80002F01FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 05B258481C54EA80002F01FA /* LaunchScreen.storyboard */; };
 		05B258551C54EA80002F01FA /* MICountryPickerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B258541C54EA80002F01FA /* MICountryPickerTests.swift */; };
 		05B258651C54EC67002F01FA /* MICountryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05B258641C54EC67002F01FA /* MICountryPicker.swift */; };
-		EB8B43821D2601AA007D505E /* CallingCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB8B43811D2601AA007D505E /* CallingCodes.plist */; };
+		3D65C2411DC399C900F44301 /* CallingCodes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3D65C2401DC399C900F44301 /* CallingCodes.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +41,7 @@
 		05B258541C54EA80002F01FA /* MICountryPickerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MICountryPickerTests.swift; sourceTree = "<group>"; };
 		05B258561C54EA80002F01FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		05B258641C54EC67002F01FA /* MICountryPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MICountryPicker.swift; path = Source/MICountryPicker.swift; sourceTree = "<group>"; };
-		EB8B43811D2601AA007D505E /* CallingCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = CallingCodes.plist; sourceTree = "<group>"; };
+		3D65C2401DC399C900F44301 /* CallingCodes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = CallingCodes.plist; path = Source/CallingCodes.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 		05B2585F1C54EB4C002F01FA /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				EB8B43811D2601AA007D505E /* CallingCodes.plist */,
+				3D65C2401DC399C900F44301 /* CallingCodes.plist */,
 				05B258641C54EC67002F01FA /* MICountryPicker.swift */,
 				05214F001C55226B00F57DA5 /* assets.bundle */,
 			);
@@ -197,9 +197,9 @@
 			files = (
 				05B2584A1C54EA80002F01FA /* LaunchScreen.storyboard in Resources */,
 				05B258471C54EA80002F01FA /* Assets.xcassets in Resources */,
+				3D65C2411DC399C900F44301 /* CallingCodes.plist in Resources */,
 				05B258451C54EA80002F01FA /* Main.storyboard in Resources */,
 				05214F011C55226B00F57DA5 /* assets.bundle in Resources */,
-				EB8B43821D2601AA007D505E /* CallingCodes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
