@@ -155,14 +155,14 @@ public class MICountryPicker: UITableViewController {
 extension MICountryPicker {
     
     override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        if searchController.searchBar.isFirstResponder() {
+        if searchController.searchBar.text!.characters.count > 0 {
             return 1
         }
         return sections.count
     }
     
     override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.searchBar.isFirstResponder() {
+        if searchController.searchBar.text!.characters.count > 0 {
             return filteredList.count
         }
         return sections[section].countries.count
@@ -179,7 +179,7 @@ extension MICountryPicker {
         let cell: UITableViewCell! = tempCell
         
         let country: MICountry!
-        if searchController.searchBar.isFirstResponder() {
+        if searchController.searchBar.text!.characters.count > 0 {
             country = filteredList[indexPath.row]
         } else {
             country = sections[indexPath.section].countries[indexPath.row]
@@ -223,7 +223,7 @@ extension MICountryPicker {
     override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let country: MICountry!
-        if searchController.searchBar.isFirstResponder() {
+        if searchController.searchBar.text!.characters.count > 0 {
             country = filteredList[indexPath.row]
         } else {
             country = sections[indexPath.section].countries[indexPath.row]
