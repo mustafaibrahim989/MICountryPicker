@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         picker.delegate = self
 
         // Display calling codes
-//        picker.showCallingCodes = true
+        picker.showCallingCodes = true
 
         // or closure
         picker.didSelectCountryClosure = { name, code in

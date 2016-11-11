@@ -13,7 +13,7 @@ class MICountry: NSObject {
     let code: String
     var section: Int?
     let dialCode: String!
-    
+
     init(name: String, code: String, dialCode: String = " - ") {
         self.name = name
         self.code = code
@@ -23,7 +23,7 @@ class MICountry: NSObject {
 
 struct Section {
     var countries: [MICountry] = []
-    
+
     mutating func addCountry(country: MICountry) {
         countries.append(country)
     }
@@ -35,20 +35,21 @@ struct Section {
 }
 
 public class MICountryPicker: UITableViewController {
-    
+
     public var customCountriesCode: [String]?
-    
+
     private lazy var CallingCodes = { () -> [[String: String]] in
-        guard let path = NSBundle.mainBundle().pathForResource("CallingCodes", ofType: "plist") else { return [] }
+        let resourceBundle = NSBundle(forClass: MICountryPicker.classForCoder())
+        guard let path = resourceBundle.pathForResource("CallingCodes", ofType: "plist") else { return [] }
         return NSArray(contentsOfFile: path) as! [[String: String]]
     }()
     private var searchController: UISearchController!
     private var filteredList = [MICountry]()
-    private var unsourtedCountries : [MICountry] {
+    private var unsourtedCountries: [MICountry] {
         let locale = NSLocale.currentLocale()
         var unsourtedCountries = [MICountry]()
         let countriesCodes = customCountriesCode == nil ? NSLocale.ISOCountryCodes() : customCountriesCode!
-        
+
         for countryCode in countriesCodes {
             let displayName = locale.displayNameForKey(NSLocaleCountryCode, value: countryCode)
             let countryData = CallingCodes.filter { $0["code"] == countryCode }
@@ -61,42 +62,42 @@ public class MICountryPicker: UITableViewController {
             }
             unsourtedCountries.append(country)
         }
-        
+
         return unsourtedCountries
     }
-    
+
     private var _sections: [Section]?
     private var sections: [Section] {
-        
+
         if _sections != nil {
             return _sections!
         }
-        
+
         let countries: [MICountry] = unsourtedCountries.map { country in
             let country = MICountry(name: country.name, code: country.code, dialCode: country.dialCode)
             country.section = collation.sectionForObject(country, collationStringSelector: Selector("name"))
             return country
         }
-        
+
         // create empty sections
         var sections = [Section]()
         for _ in 0..<self.collation.sectionIndexTitles.count {
             sections.append(Section())
         }
-        
+
         // put each country in a section
         for country in countries {
             sections[country.section!].addCountry(country)
         }
-        
+
         // sort each section
         for section in sections {
             var s = section
             s.countries = collation.sortedArrayFromArray(section.countries, collationStringSelector: Selector("name")) as! [MICountry]
         }
-        
+
         _sections = sections
-        
+
         return _sections!
     }
     private let collation = UILocalizedIndexedCollation.currentCollation()
@@ -110,19 +111,19 @@ public class MICountryPicker: UITableViewController {
         self.init()
         self.didSelectCountryClosure = completionHandler
     }
-    
+
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
+
         tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         createSearchBar()
         tableView.reloadData()
-        
+
         definesPresentationContext = true
     }
-    
+
     // MARK: Methods
-    
+
     private func createSearchBar() {
         if self.tableView.tableHeaderView == nil {
             searchController = UISearchController(searchResultsController: nil)
@@ -131,10 +132,10 @@ public class MICountryPicker: UITableViewController {
             tableView.tableHeaderView = searchController.searchBar
         }
     }
-    
+
     private func filter(searchText: String) -> [MICountry] {
         filteredList.removeAll()
-        
+
         sections.forEach { (section) -> () in
             section.countries.forEach({ (country) -> () in
                 if country.name.characters.count >= searchText.characters.count {
@@ -145,7 +146,7 @@ public class MICountryPicker: UITableViewController {
                 }
             })
         }
-        
+
         return filteredList
     }
 }
@@ -153,37 +154,37 @@ public class MICountryPicker: UITableViewController {
 // MARK: - Table view data source
 
 extension MICountryPicker {
-    
+
     override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if searchController.searchBar.text!.characters.count > 0 {
             return 1
         }
         return sections.count
     }
-    
+
     override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.searchBar.text!.characters.count > 0 {
             return filteredList.count
         }
         return sections[section].countries.count
     }
-    
+
     override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+
         var tempCell: UITableViewCell? = tableView.dequeueReusableCellWithIdentifier("UITableViewCell")
-        
+
         if tempCell == nil {
             tempCell = UITableViewCell(style: .Default, reuseIdentifier: "UITableViewCell")
         }
-        
+
         let cell: UITableViewCell! = tempCell
-        
+
         let country: MICountry!
         if searchController.searchBar.text!.characters.count > 0 {
             country = filteredList[indexPath.row]
         } else {
             country = sections[indexPath.section].countries[indexPath.row]
-            
+
         }
 
         if showCallingCodes {
@@ -196,18 +197,18 @@ extension MICountryPicker {
         cell.imageView!.image = UIImage(named: bundle + country.code.lowercaseString + ".png", inBundle: NSBundle(forClass: MICountryPicker.self), compatibleWithTraitCollection: nil)
         return cell
     }
-    
+
     override public func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if !sections[section].countries.isEmpty {
             return self.collation.sectionTitles[section] as String
         }
         return ""
     }
-    
+
     override public func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
         return collation.sectionIndexTitles
     }
-    
+
     override public func tableView(tableView: UITableView,
         sectionForSectionIndexTitle title: String,
         atIndex index: Int)
@@ -219,7 +220,7 @@ extension MICountryPicker {
 // MARK: - Table view delegate
 
 extension MICountryPicker {
-    
+
     override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let country: MICountry!
@@ -227,7 +228,7 @@ extension MICountryPicker {
             country = filteredList[indexPath.row]
         } else {
             country = sections[indexPath.section].countries[indexPath.row]
-            
+
         }
         delegate?.countryPicker(self, didSelectCountryWithName: country.name, code: country.code)
         delegate?.countryPicker?(self, didSelectCountryWithName: country.name, code: country.code, dialCode: country.dialCode)
@@ -239,7 +240,7 @@ extension MICountryPicker {
 // MARK: - UISearchDisplayDelegate
 
 extension MICountryPicker: UISearchResultsUpdating {
-    
+
     public func updateSearchResultsForSearchController(searchController: UISearchController) {
         filter(searchController.searchBar.text!)
         tableView.reloadData()
